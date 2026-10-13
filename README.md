@@ -1,121 +1,136 @@
-# ⚡ GmotionX Auto-Video Factory (Gemini + Apify + Neo-Brutalism)
+# ⚡ AutoReel Engine
 
-> **Açık Kaynaklı Otonom Kısa Video (Reels / Shorts / TikTok) Üretim Motoru.**  
-> Bir konu veya metin dosyasından yola çıkarak; senaryo yazımı, seslendirme, altyazı senkronizasyonu, hareketli grafikler ve video render işlemlerini uçtan uca otomatize eder.
-
----
-
-## 🌟 Öne Çıkan Özellikler
-
-- 🧠 **Prompt Odaklı Mimari (`PROMPT_SYSTEM.md`):** Temel kurgu, senaryo ritmi ve prompt mühendisliği kuralları doğrudan Markdown dokümanları üzerinden yönetilir ve geliştirilir.
-- 🎨 **Değiştirilebilir Tema Mimarisi (`src/theme.ts`):** 
-  - **Varsayılan Aktif Tema:** **Neo-Brutalism** (Warm Cream, Ink Black, Acid Yellow, Signal Orange).
-  - Kolayca yeni temalar (Cyberpunk, 3D Motion, Minimalist Dark vb.) eklenebilir.
-- 🎯 **Zorunlu Sorun/Paradoks Kancası (0-2 sn):** Her video konuya özel yakıcı bir problem sorusuyla (*"Uçak motoru kapansa bile neden düşmez, hiç merak ettin mi?"*) izleyiciyi kilitler.
-- 🎙️ **Kusursuz Türkçe Seslendirme & Semantik Senkron:** 
-  - `edge-tts` nöral sesleri ile sıfır maliyetli doğal Türkçe ses.
-  - Cümle ve noktalama (`. ! ?`) duyarlı altyazı motoru; duraklamalarda yeni cümlenin erken ekrana gelmesi engellenir.
-- 🔍 **Kendi Kendini Denetleme (Self-Audit):** Render öncesi 5 kritik anın karesini yakalayarak font, kontrast ve çakışma kontrolü yapar.
-- 🌐 **Apify Veri Entegrasyonu:** Trend konuları veya rakip içerikleri kazıyıp videoya dönüştürme desteği.
+> **Açık Kaynaklı, Modüler ve Prompt Odaklı Programatik Video Üretim Motoru**  
+> Remotion ve Yapay Zeka (LLM + TTS) altyapısı üzerine inşa edilmiş; sosyal medya (Reels, Shorts, TikTok) için uçtan uca otomatik video üreten, tamamen genişletilebilir ve özelleştirilebilir bir video fabrikası.
 
 ---
 
-## 🏗️ Sistem Mimarisi & Klasör Yapısı
+## 💡 Temel Felsefe: "Prompt & Markdown Odaklı Mimari"
+
+Bu proje tek bir tasarıma veya tek bir formata bağlı **değildir**. 
+
+Sistem; kurgu kurallarını, senaryo şablonlarını ve görsel tasarım dillerini **Markdown (`.md`) dosyaları** üzerinden öğrenir ve yönetir. Bu sayede:
+* **Farklı Nişler İçin Ayrı Promptlar:** Tarih, teknoloji, felsefe, ekonomi veya mizah için ayrı `.md` rehberleri ekleyip yapay zekayı bu kurallara göre yönlendirebilirsiniz.
+* **Genişletilebilir Tasarım Sistemleri:** Dilediğiniz görsel kimliği (Neo-Brutalism, Minimalist Dark, Cyberpunk, 3D Motion, Gazete/Kolaj vb.) ayrı bir stil dosyası veya tema olarak sisteme ekleyebilirsiniz.
+* **Açık Kaynak Katkısı:** Topluluk ve geliştiriciler yeni animasyon bileşenleri, infografikler veya senaryo promptları ekleyerek ekosistemi kolayca büyütebilir.
+
+---
+
+## 🌟 Çekirdek Yetenekler
+
+### 1. 🧠 Modüler Kurgu ve Prompt Sistemi
+* Videoların metin yapısı, kanca (hook) formülleri ve sahne akışı doğrudan Markdown dokümanlarından ([`PROMPT_SYSTEM.md`](PROMPT_SYSTEM.md)) beslenir.
+* Kendi promptlarınızı veya alt stillerinizi yeni `.md` dosyaları olarak projeye dahil edebilir, AI modelinizi bu kurallara göre eğitebilirsiniz.
+
+### 2. 🎨 Tak-Çıkar Görsel Temalar & Animasyonlar
+* Renk paletleri, çerçeve kalınlıkları, gölge stilleri ve tipografi kuralları koddan bağımsız olarak yapılandırılabilir ([`src/theme.ts`](src/theme.ts)).
+* Proje içinde örnek olarak **Neo-Brutalism** teması ve infografik kartları yer alır; ancak tek satırla dilediğiniz başka bir tasarım şablonuna geçebilirsiniz.
+* Görsel hiyerarşi kuralları sayesinde metin kalabalığı oluşmaz; üst alanda infografikler ve animasyonlar yer alırken, alt alanda kinetik altyazı odak noktası olur.
+
+### 3. 🎙️ Semantik Altyazı & Ses Senkronizasyonu
+* **Nefes ve Duraklama Koruması:** Cümle bitişleri (`. ! ?`) ve konuşmacının soluklandığı sessizlik anları algılanır; sonraki cümlenin kelimeleri ekrana asla vaktinden önce gelmez.
+* **Türkçe ve Çok Dilli Uyum:** Tüm özel karakterler (`İ, Ğ, Ş, Ç, Ö, Ü`) kayıpsız ve yüksek tipografik kalitede işlenir.
+
+### 4. 🔍 Otomatik Kalite Denetimi (Self-Audit)
+* Render almadan önce videonun kilit anlarından otomatik kareler yakalanır (`npm run audit`).
+* Çakışma, okunabilirlik ve kontrast denetimi yapılarak hatasız çıktılar güvenceye alınır.
+
+### 5. 📂 Esnek Girdi ve Veri Entegrasyonu
+* [`files/`](files/) klasörüne atılan herhangi bir ham metin (`.txt`, `.md`), hazır ses veya görsel dosyası otomatik olarak işlenir.
+* İstenirse **Apify** gibi harici veri kazıyıcılarla trend konular internetten toplanarak videoya dönüştürülebilir.
+
+---
+
+## 📁 Proje Mimarisi
 
 ```text
-├── files/                 # Girdi klasörü (Geçici .txt, .md veya kaynak dosyalar)
+├── files/                 # Kaynak girdi alanı (Geçici metinler, notlar, sesler)
 ├── src/
 │   ├── components/        # Modüler hareketli grafik bileşenleri
-│   │   ├── VisualIllustration.tsx  # İnfografikler, ikili karşılaştırmalar (❌ vs ✅)
-│   │   ├── KineticCaptions.tsx     # Cümle duyarlı kinetik altyazı motoru
-│   │   ├── AudioVisualizer.tsx     # Canlı ritmik frekans dalgası (equalizer)
-│   │   ├── HistoricalStamp.tsx     # Slam-spring efektli resmi arşiv damgası
-│   │   ├── FloatingParticles.tsx   # Derinlik katan süzülen parçacıklar
+│   │   ├── VisualIllustration.tsx  # İnfografikler, ikili karşılaştırmalar, şemalar
+│   │   ├── KineticCaptions.tsx     # Cümle duyarlı dinamik altyazı motoru
+│   │   ├── AudioVisualizer.tsx     # Canlı ritmik frekans dalgası
+│   │   ├── HistoricalStamp.tsx     # Yaylanmalı arşiv/onay mühürleri
+│   │   ├── FloatingParticles.tsx   # Sinematik derinlik parçacıkları
 │   │   ├── HeaderBadge.tsx         # Kategori başlık rozeti
 │   │   └── ProgressBar.tsx         # Tepe izleme çubuğu
-│   ├── theme.ts           # 🎨 Değiştirilebilir renk ve stil yapılandırması
-│   ├── utils/chunking.ts  # Cümle ve nefes aralıklarını koruyan altyazı algoritması
-│   └── ReelComposition.tsx# Ana 1080x1920 dikey kompozisyon
+│   ├── theme.ts           # 🎨 Değiştirilebilir renk ve görsel stil yapılandırması
+│   ├── utils/chunking.ts  # Cümle ve duraklama senkronizasyon algoritması
+│   └── ReelComposition.tsx# 1080x1920 dikey kompozisyon yapısı
 ├── scripts/
-│   ├── generate_audio.py  # TTS ve kelime zamanlaması çıkarıcı
-│   ├── audit_frames.mjs   # Kalite denetim kareleri render betiği
-│   ├── pipeline.mjs       # Uçtan uca tek komut video üretim betiği
-│   └── apify_research.mjs # Apify araştırma entegrasyonu
-├── PROMPT_SYSTEM.md       # 📖 Kurgucu ve senaryo prompt sistematiği
-└── ARCHITECTURE.md        # 🏛️ Uçtan uca mimari detayları
+│   ├── generate_audio.py  # Nöral TTS ve kelime zamanlaması çıkarıcı
+│   ├── audit_frames.mjs   # Kalite denetim kareleri render scripti
+│   ├── pipeline.mjs       # Uçtan uca tek komut video üretim hattı
+│   └── apify_research.mjs # Veri ve trend kazıma entegrasyonu
+├── PROMPT_SYSTEM.md       # 📖 Temel prompt sistematiği ve kurgu kuralları
+└── ARCHITECTURE.md        # 🏛️ Uçtan uca sistem mimarisi
 ```
 
 ---
 
-## 🚀 Hızlı Başlangıç (Kurulum)
+## 🚀 Kurulum
 
 ### 1. Gereksinimler
-- **Node.js:** v18 veya üzeri
-- **Python:** 3.10 veya üzeri (Ses motoru için)
+- **Node.js:** v18+ 
+- **Python:** 3.10+ (Doğal ses motoru için)
 
-### 2. Bağımlılıkları Yükleyin
+### 2. Bağımlılıkları Kurun
 ```bash
-# Node paketlerini yükle
+# Node paketlerini kur
 npm install
 
-# Ses motorunu yükle
+# Doğal ses motorunu kur
 pip install edge-tts
 ```
 
-### 3. Çevre Değişkenleri (.env)
-Kök dizindeki `.env.example` dosyasını `.env` olarak kopyalayın (Apify araştırması opsiyoneldir):
+### 3. Çevre Değişkenleri
+Trend kazıma veya harici API'ler için `.env.example` dosyasını kopyalayın:
 ```bash
 cp .env.example .env
 ```
 
 ---
 
-## 🎬 Kullanım & Komutlar
+## 🛠️ Temel Komutlar
 
-| Komut | Açıklama |
-| :--- | :--- |
-| `npm run generate` | `files/` altındaki metni okur, sesi üretir ve nihai **MP4** videoyu basar. |
-| `npm run dev` | Remotion Studio'yu tarayıcıda açar; canlı olarak kare kare izleyin ve düzenleyin. |
-| `npm run audit` | Videonun 5 kilit karesini (`out/audit/`) yakalar; kalite ve senkronu kontrol edin. |
-| `npm run render` | Mevcut kompozisyonu doğrudan `out/final_reel.mp4` olarak render alır. |
+```bash
+# files/ altındaki girdiden uçtan uca video üret
+npm run generate
 
----
+# Remotion Studio'yu tarayıcıda canlı aç ve düzenle
+npm run dev
 
-## 🎨 Yeni Tasarım / Tema Nasıl Eklenir?
+# Videonun kilit anlarını (frame) incelemek için test kareleri al
+npm run audit
 
-Sistem tamamen tema dostudur. Yeni bir tasarım eklemek veya değiştirmek için [`src/theme.ts`](file:///d:/apps/remotion/src/theme.ts) dosyasını düzenlemeniz yeterlidir:
-
-```typescript
-export const MY_CUSTOM_THEME: ThemeConfig = {
-  name: "Cyberpunk",
-  colors: {
-    background: "#0F172A",
-    inkBlack: "#000000",
-    acidYellow: "#00F0FF", // Neon Cyan
-    signalOrange: "#FF007F", // Neon Pembe
-    pureWhite: "#FFFFFF",
-  },
-  styles: {
-    border: "3px solid #00F0FF",
-    borderThick: "5px solid #00F0FF",
-    shadowHard: "6px 6px 0px #FF007F",
-    shadowMedium: "4px 4px 0px #FF007F",
-    shadowSmall: "2px 2px 0px #FF007F",
-    borderRadius: "8px",
-  },
-};
+# Nihai 1080x1920 MP4 videoyu render al
+npm run render
 ```
 
 ---
 
-## 🤝 Katkıda Bulunma (Contributing)
+## 🧩 Kendi Tarzını ve Tasarımını Nasıl Eğitirsin?
 
-Bu repo açık kaynaklıdır! 
-- Arkadaşlarınız ve topluluk üyeleri yeni prompt stratejilerini [PROMPT_SYSTEM.md](file:///d:/apps/remotion/PROMPT_SYSTEM.md) üzerinden geliştirebilir.
-- Yeni animasyon bileşenleri ekleyebilir veya farklı nişler için görselleştirme kartları tasarlayabilir.
-- PR (Pull Request) göndermekten çekinmeyin!
+1. **Yeni Bir Prompt / Senaryo Kuralı Eklemek:**  
+   [`PROMPT_SYSTEM.md`](PROMPT_SYSTEM.md) dosyasını referans alarak yeni bir Markdown dosyası oluşturabilir (örn: `prompts/finance_reels.md`), kendi nişinize özel giriş kancaları ve anlatım kalıpları tanımlayabilirsiniz.
+
+2. **Yeni Bir Görsel Stil Tanımlamak:**  
+   [`src/theme.ts`](src/theme.ts) içerisine kendi renk paletinizi, çerçeve kalınlıklarınızı ve gölge kurallarınızı ekleyip `currentTheme` olarak atayın.
+
+3. **Yeni Bir Animasyon / Görsel Çizmek:**  
+   [`src/components/VisualIllustration.tsx`](src/components/VisualIllustration.tsx) içerisine yeni bir bileşen tipi ekleyerek kendi grafiklerinizi, ikonlarınızı veya hareketli tablolarınızı ekleyin.
+
+---
+
+## 🤝 Katkıda Bulunun (Open Source)
+
+Bu proje topluluğun geliştirmesine tamamen açıktır!
+- Yeni tasarım dilleri ve tema varyasyonları,
+- Yeni hareketli grafik bileşenleri ve görselleştirmeler,
+- Farklı diller ve nişler için optimize edilmiş `.md` prompt şablonları,
+için Pull Request (PR) açabilir veya tartışmalara katılabilirsiniz.
 
 ---
 
 ## 📄 Lisans
-Bu proje açık kaynaklıdır. Remotion ticari lisans kuralları için [Remotion License](https://remotion.dev/license) sayfasını inceleyebilirsiniz.
+Açık kaynak olarak paylaşılmaktadır. Remotion altyapısı hakkında ticari lisans gereksinimleri için [Remotion License](https://remotion.dev/license) sayfasını inceleyebilirsiniz.
