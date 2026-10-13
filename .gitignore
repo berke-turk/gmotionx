@@ -4,5 +4,8 @@ dist
 .env
 
 # Ignore the output video from Git but not videos you import into src/.
-out
+out/audit/*
+out/final_reel.mp4
 whisper.cpp
+public/
+files/*

@@ -1,25 +1,7 @@
-import { continueRender, delayRender, staticFile } from "remotion";
+import { loadFont as loadMontserrat } from "@remotion/google-fonts/Montserrat";
 
-export const TheBoldFont = `TheBoldFont`;
-
-let loaded = false;
-
-export const loadFont = async (): Promise<void> => {
-  if (loaded) {
-    return Promise.resolve();
-  }
-
-  const waitForFont = delayRender();
-
-  loaded = true;
-
-  const font = new FontFace(
-    TheBoldFont,
-    `url('${staticFile("theboldfont.ttf")}') format('truetype')`,
-  );
-
-  await font.load();
-  document.fonts.add(font);
-
-  continueRender(waitForFont);
-};
+// Montserrat Latin-Extended (Türkçe tam destek: ç, ğ, ı, ö, ş, ü, Ç, Ğ, İ, Ö, Ş, Ü)
+export const { fontFamily: TurkishFont } = loadMontserrat("normal", {
+  weights: ["800", "900"],
+  subsets: ["latin-ext", "latin"],
+});
