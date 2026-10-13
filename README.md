@@ -1,4 +1,4 @@
-# ⚡ Remotion Auto-Video Factory (Gemini + Apify + Neo-Brutalism)
+# ⚡ GmotionX Auto-Video Factory (Gemini + Apify + Neo-Brutalism)
 
 > **Açık Kaynaklı Otonom Kısa Video (Reels / Shorts / TikTok) Üretim Motoru.**  
 > Bir konu veya metin dosyasından yola çıkarak; senaryo yazımı, seslendirme, altyazı senkronizasyonu, hareketli grafikler ve video render işlemlerini uçtan uca otomatize eder.
