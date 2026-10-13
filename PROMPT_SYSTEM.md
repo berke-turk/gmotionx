@@ -55,6 +55,11 @@ Tasarım ve Anlatım Kuralları:
 
 5. DİL: Türkçe karakter kurallarına (İ, ğ, ş, ç, ö, ü) ve dinamik konuşma diline tam uyumlu.
 
+6. KAPANIŞ KURALI & KLİŞE ETKİLEŞİM YASAĞI (Anti-Cliche Ending):
+   - **KESİNLİKLE YASAKTIR:** Videoların sonunda ASLA "Sen bu farkı biliyor muydun?", "Yorumlara yaz", "Yorumlarda buluşalım", "Fikrini aşağıya bırak" gibi ucuz etkileşim dilenciliği (engagement bait) YAPILMAYACAK!
+   - **DOĞRU KAPANIŞ (Mic-Drop / Çarpıcı Sentez):** Video, konunun özünü ve gerçeğini tek bir otoriter, sarsıcı ve akılda kalıcı cümleyle mühürleyerek aniden biter.
+   - *Örnek Doğru Kapanış:* "Tarih, kulaktan dolma anılarla değil; bizzat kurucularının el yazısı ve kanunlaştırdığı resmi belgelerle okunur." (Nokta. Asil ve güçlü bir son.)
+
 Çıktı Formatı (JSON):
 {
   "category": "Kategori Rozeti (Örn: HAVACILIK SIRLARI / EZBER BOZAN TARİH)",

@@ -52,7 +52,7 @@ flowchart TD
 ### Katman 2: Senaryo & Kurgu Motoru (Gemini)
 * **Amaç:** Ham veriyi veya konuyu 40-50 saniyelik, ilk 1-2 saniyesi "Sorun / Paradoks Odaklı Hook" olan viral bir formüle dönüştürmek.
 * **Zorunlu Hook Kuralı:** `[Konuya Özel Çarpıcı Sorun/Çelişki]` + `["Hiç merak ettin mi?" / "Cevabı ezber bozuyor..."]`
-* **Formül:** `[0-3s Sorun Kancası]` ➔ `[3-8s Yönlendirme & Vaat]` ➔ `[8-35s İnfografik Çözüm & Gerçekler]` ➔ `[35-45s Soru & CTA]`.
+* **Formül:** `[0-3s Sorun/Paradoks Kancası]` ➔ `[3-8s Yönlendirme & Vaat]` ➔ `[8-35s İnfografik Çözüm & Gerçekler]` ➔ `[35-45s Sarsıcı Sentez Kapanışı (Klişe 'yoruma yaz' yasağı)]`.
 
 ### Katman 3: Seslendirme ve Altyazı Senkronizasyonu (TTS)
 * **Araçlar:**
