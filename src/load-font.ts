@@ -6,6 +6,13 @@ export const { fontFamily: TurkishFont } = loadMontserrat("normal", {
   subsets: ["latin-ext", "latin"],
 });
 
+import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
+
+export const { fontFamily: InterFont } = loadInter("normal", {
+  weights: ["400", "500", "600", "700", "800"],
+  subsets: ["latin-ext", "latin"],
+});
+
 export const TheBoldFont = TurkishFont;
-export const loadFont = () => ({ fontFamily: TurkishFont });
+export const loadFont = () => ({ fontFamily: InterFont });
 

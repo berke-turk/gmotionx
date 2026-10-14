@@ -9,3 +9,5 @@ export * from "./SpeedBarrierClash";
 export * from "./QuantumSpinFlip";
 export * from "./MonolithicVerdict";
 export * from "./VisualAttentionDirector";
+export * from "./SvgLogoMotion";
+export * from "./MobileDeviceMockup";

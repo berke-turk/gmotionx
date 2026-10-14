@@ -10,3 +10,4 @@ export * from "./FinancialMarketGenre";
 export * from "./KurzgesagtCosmicGenre";
 export * from "./MinimalBrutalistThinkingGenre";
 export * from "./TechnicalBlueprintGenre";
+export * from "./AppPromoGenre";

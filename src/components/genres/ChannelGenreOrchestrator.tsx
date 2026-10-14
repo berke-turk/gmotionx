@@ -11,6 +11,8 @@ import { FinancialMarketGenre } from "./FinancialMarketGenre";
 import { KurzgesagtCosmicGenre } from "./KurzgesagtCosmicGenre";
 import { MinimalBrutalistThinkingGenre } from "./MinimalBrutalistThinkingGenre";
 import { TechnicalBlueprintGenre } from "./TechnicalBlueprintGenre";
+import { AppPromoGenre } from "./AppPromoGenre";
+import { SvgLogoMotion } from "../cinematic/SvgLogoMotion";
 
 export type ChannelGenreType =
   | "automotive"
@@ -35,6 +37,10 @@ export type ChannelGenreType =
   | "hardware"
   | "quantum"
   | "tech"
+  | "app_promo"
+  | "saas"
+  | "logo_intro"
+  | "logo"
   | string;
 
 export interface ChannelGenreOrchestratorProps {
@@ -263,6 +269,78 @@ export const ChannelGenreOrchestrator: React.FC<ChannelGenreOrchestratorProps> =
         assemblyNote={genreProps.assemblyNote || leftTitle || "12.000 RPM Dinamik Balans"}
         closingVerdict={genreProps.closingVerdict || verdictText || "Mühendislikte mükemmellik eklenecek bir şey kalmadığında değil, çıkarılacak fazlalık olmadığında başlar."}
       />
+    );
+  }
+
+  // 13. SAAS & APP PROMO COMMERCIAL (Linear / Raycast / Apple Style & Burnwe Mobile FinTech)
+  if (
+    g === "app_promo" ||
+    g === "saas" ||
+    g === "app" ||
+    g === "mobile" ||
+    g === "mobile_app" ||
+    g === "fintech" ||
+    g === "banking" ||
+    g === "software" ||
+    g === "startup" ||
+    g === "product_demo" ||
+    g === "website"
+  ) {
+    const isMobileGenre = g === "mobile" || g === "mobile_app" || g === "fintech" || g === "banking";
+    const parts = title.includes(",") ? title.split(",") : [title, leftTitle || "tek tıkla otonom akış."];
+    return (
+      <AppPromoGenre
+        appName={genreProps.appName || badge || (isMobileGenre ? "ConverseBank" : "PulseAI")}
+        badge={genreProps.badge || badge || (isMobileGenre ? "MOBILE BANKING · 2026" : "SAAS PRODUCT LAUNCH · 2026")}
+        headlineMain={genreProps.headlineMain || parts[0]?.trim() || (isMobileGenre ? "Finansal özgürlük," : "Eski yöntemleri unutun,")}
+        headlineSub={genreProps.headlineSub || parts[1]?.trim() || (isMobileGenre ? "cebinde tek dokunuşla." : "tek tıkla otonom akış.")}
+        brandColor={genreProps.brandColor || (isMobileGenre ? "#38BDF8" : "#6366F1")}
+        accentColor={genreProps.accentColor || (isMobileGenre ? "#10B981" : "#38BDF8")}
+        screenshotUrl={genreProps.screenshotUrl}
+        logoSvgPaths={genreProps.logoSvgPaths}
+        frameMode={genreProps.frameMode || (isMobileGenre ? "mobile" : "browser")}
+        bentoCards={genreProps.bentoCards}
+        actionButtonText={genreProps.actionButtonText || rightTitle || (isMobileGenre ? "Anlık Transfer" : "Deploy Pipeline")}
+        actionSuccessText={genreProps.actionSuccessText || (isMobileGenre ? "✓ Transfer Onaylandı" : "✓ Production Live")}
+        bottomVerdict={genreProps.bottomVerdict || verdictText || (isMobileGenre ? "Tüm bankacılık işlemlerini 1 saniyede tamamlayın." : "Karmaşık süreçleri 3 saniyede otomatikleştirin.")}
+        showCursorInteraction={genreProps.showCursorInteraction ?? true}
+      />
+    );
+  }
+
+  // 14. SVG LOGO MOTION REVEAL & INTRO (Trim Paths & Specular Shimmer)
+  if (
+    g === "logo_intro" ||
+    g === "logo" ||
+    g === "brand_intro" ||
+    g === "logo_reveal" ||
+    g === "motion_logo"
+  ) {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "#05070D",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingBottom: "160px",
+        }}
+      >
+        <SvgLogoMotion
+          paths={genreProps.paths || genreProps.logoSvgPaths}
+          viewBox={genreProps.viewBox || "0 0 100 100"}
+          strokeColor={genreProps.strokeColor || "#38BDF8"}
+          fillColor={genreProps.fillColor || "rgba(56, 189, 248, 0.15)"}
+          strokeWidth={genreProps.strokeWidth || 3.5}
+          brandName={genreProps.brandName || title || "LINEAR"}
+          tagline={genreProps.tagline || verdictText || badge || "THE ISSUE TRACKING PLATFORM"}
+          accentGlowColor={genreProps.accentGlowColor || "#38BDF8"}
+          size={genreProps.size || 260}
+          drawDurationFrames={genreProps.drawDurationFrames || 45}
+        />
+      </div>
     );
   }
 

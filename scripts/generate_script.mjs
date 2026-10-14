@@ -29,6 +29,8 @@ GÖREV & KURALLAR:
      * "sound": Ses, frekans, akustik, müzik teorisi (Obsidyen void, polar osiloskop halkaları, canlı Hz, piyano akoru).
      * "psychology": Bilişsel psikoloji, alışkanlıklar, zihin tuzakları (Fildişi zemin, dev condensed 2 satır başlık, 3D clay figür, artan sayaç hapı).
      * "cinema": Sinema dili, kadraj, yönetmenlik hileleri (Keten zemin, köşe vizör tikleri, REC blink, segmentli bar).
+     * "app_promo": SaaS, mobil ve web uygulama lansmanları, Linear & Apple tarzı (2.5D yüzen pencere, interaktif SVG imleç tıklaması, bento grid odak karartması).
+     * "logo_intro": 2025+ SVG Logo Motion Design (Trim paths evolvePath, çift katmanlı neon bloom, sıvı dolgu, 45° speküler shimmer, kilitlenme şok dalgası).
      * "quantum": Kuantum fiziği, atom altı evren (Kozmik parçacık çarpışması, 3D spin).
      * "tech": Yazılım, sunucu, teknoloji mimarisi (Terminal hook, Container stack).
 
@@ -527,7 +529,74 @@ function generateFallbackScript(topic) {
     return scriptData;
   }
 
-  // 9. DİĞER HER KONU İÇİN DİNAMİK SİNEMATİK GENEL MOTOR
+  // 13. SAAS & APP PROMO REKLAMI (Linear & Apple Tarzı)
+  if (
+    t.includes("app") ||
+    t.includes("uygulama") ||
+    t.includes("saas") ||
+    t.includes("yazılım") ||
+    t.includes("tanıtım") ||
+    t.includes("reklam") ||
+    t.includes("product") ||
+    t.includes("lansman")
+  ) {
+    const scriptData = {
+      channelGenre: "app_promo",
+      category: "SAAS & APP LAUNCH",
+      title: "GELECEĞİN İŞ AKIŞI",
+      scriptText: "Eski, hantal ve karmaşık yöntemlerle vakit kaybetmeyi bırakın. Modern ekipler artık tek bir tıkla tüm iş akışlarını otomatikleştiriyor. Sıfır gecikme, küresel dağıtım ve anında canlıya alma gücü. Hız bir ayrıcalık değil; geleceğin tek çalışma standardıdır.",
+      pronunciations: {
+        "saas": "sas",
+        "pipeline": "payplayn",
+        "deploy": "diploy"
+      },
+      scenes: [
+        {
+          startSec: 0,
+          endSec: 999,
+          type: "app_promo",
+          badge: "SAAS PRODUCT LAUNCH · 2026",
+          title: "Eski yöntemleri unutun, tek tıkla otonom akış.",
+          leftTitle: "tek tıkla otonom akış.",
+          rightTitle: "Deploy Pipeline",
+          verdictText: "Karmaşık süreçleri 3 saniyede otomatikleştirin."
+        }
+      ]
+    };
+    saveScript(scriptData);
+    return scriptData;
+  }
+
+  // 14. SVG LOGO MOTION DESIGN INTRO
+  if (
+    t.includes("logo") ||
+    t.includes("intro") ||
+    t.includes("reveal") ||
+    t.includes("jenerik") ||
+    t.includes("marka")
+  ) {
+    const scriptData = {
+      channelGenre: "logo_intro",
+      category: "BRAND MOTION REVEAL",
+      title: "FLOWSTATE",
+      scriptText: "Güçlü bir marka, karmaşık süslerde değil; saf, keskin ve tavizsiz bir formun içinde kendini var eder.",
+      pronunciations: {},
+      scenes: [
+        {
+          startSec: 0,
+          endSec: 999,
+          type: "logo_intro",
+          badge: "BRAND IDENTITY",
+          title: "FLOWSTATE",
+          verdictText: "THE FUTURE OF CRAFT"
+        }
+      ]
+    };
+    saveScript(scriptData);
+    return scriptData;
+  }
+
+  // 15. DİĞER HER KONU İÇİN DİNAMİK SİNEMATİK GENEL MOTOR
   const cleanTitle = topic.slice(0, 36).toUpperCase();
   const firstWord = cleanTitle.split(" ")[0] || "GERÇEK";
 

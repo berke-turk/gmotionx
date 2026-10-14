@@ -205,6 +205,38 @@
 
 ---
 
+### 13. 🚀 SAAS & APP PROMO COMMERCIAL (`Linear`, `Raycast`, `Apple` Tarzı)
+- **Referans:** Linear.app, Raycast, Vercel, Apple Keynote App Showcases
+- **Görsel İmza:**
+  - Derin obsidyen siber zemin (`#07090E`), hafif mimari ızgara (`60px 60px`).
+  - **2.5D İzometrik Havada Duran Pencere Maketi:** `rotateX(4deg)`, `rotateY(-2deg)` ve organik süzülme (`sin(frame * 0.06)`).
+  - macOS tarzı sol üst pencereler (kırmızı/sarı/yeşil), URL omnibox (`app.[name].io`) ve `⌘K` rozeti.
+  - **Gerçekçi Vektör İmleç:** Dışarıdan CTA butonuna süzülen, buton üstünde mikro-duraksayan, `scale(0.82)` ile tıklayan ve etrafa yeşil dalga (`ripple`) yayan interaktif fare.
+  - Canlı buton durumu: Tıklama sonrası *"Deploy Pipeline"* ➔ *"✓ Production Live"*.
+  - Kullanıcı ekran görüntüsü desteği (`screenshotUrl`) veya otomatik ultra-şık koyu mod dashboard mockup'ı.
+  - Odak karartmalı Bento Grid kartları (`10x Hız`, `0.04 ms`, `+%340`).
+  - Marka rengine duyarlı dinamik radyal ışık kubbesi (`${brandColor}40`).
+- **Renk Paleti:** Obsidyen Void (`#07090E`), Modern Indigo (`#6366F1`), Elektrik Cyan (`#38BDF8`), Başarı Zümrütü (`#10B981`).
+- **Hangi Konularda Kullanılır:** Mobil uygulama lansmanları, SaaS ürün tanıtımları, yazılım güncellemeleri, AI araçları, girişim tanıtımları.
+- **Remotion Bileşeni:** `src/components/genres/AppPromoGenre.tsx` (`channelGenre: "app_promo"`).
+
+---
+
+### 14. ✨ 2025+ SVG LOGO MOTION DESIGN INTRO (Trim Paths & Specular Shimmer)
+- **Referans:** Apple, Linear, Nike, After Effects 2025/2026 Logo Reveals
+- **Görsel İmza:**
+  - `@remotion/paths` `evolvePath` ile yaylanan dinamik trim paths çizimi.
+  - Çift katmanlı kontur: İçte keskin çekirdek kontur, arkada difüze neon bloom konturu (`blur(6px)`).
+  - Çizim `%70`e ulaştığında alttan yukarıya pürüzsüzce dolan sıvı dolgu (liquid wash).
+  - Çizim tamamlandığında logonun üzerinden hızla geçen 45° speküler ışık taraması (shimmer sweep).
+  - Logo formuna kavuştuğunda merkezden dışarıya yayılan şok dalgası halkası (`lockup shockwave`).
+  - Harf aralığı genişleyen (`letter-spacing: 0.1em -> 0.28em`) kinetik marka tipografisi.
+- **Renk Paleti:** Markanın özgün vektör renkleri ve yüksek lümenli ışık aurası.
+- **Hangi Konularda Kullanılır:** Video girişleri, logo reveal jenerikleri, kurumsal marka kapanışları.
+- **Remotion Bileşeni:** `src/components/cinematic/SvgLogoMotion.tsx` (`channelGenre: "logo_intro"`).
+
+---
+
 ## ⚡ YÖNLENDİRİCİ: `ChannelGenreOrchestrator.tsx`
 
 Tüm bu mimariler `src/components/genres/ChannelGenreOrchestrator.tsx` üzerinden tek elden yönetilir.
@@ -221,7 +253,7 @@ yazıldığında, Remotion o konunun gerektirdiği tüm sahneyi otomatik olarak 
 
 ## 🤖 YENİ BİR SOHBETTE KULLANICI KONU VERDİĞİNDE YAPILACAKLAR:
 
-1. **Konuyu Analiz Et:** Konunun özünü aşağıdaki 12 mimariden en uygun olanıyla eşleştir:
+1. **Konuyu Analiz Et:** Konunun özünü aşağıdaki 14 mimariden en uygun olanıyla eşleştir:
    - Araba/Motor/Mekanik/Donanım -> `automotive` (bilgilitampon: Black void, tork/devir ibresi, mekatronik arıza damgası)
    - Din/Tefekkür/Felsefe/Maneviyat -> `islamic` (islamvemantik: Parşömen, kobalt hat, kırmızı fırça dairesi)
    - Hukuk/Dava/Ceza/Suç Rekonstrüksiyonu -> `legal` (hukukharitasi: Milimetrik adli defter, TCK kartı, dosya no)
@@ -234,6 +266,8 @@ yazıldığında, Remotion o konunun gerektirdiği tüm sahneyi otomatik olarak 
    - Kozmik Bilim/Kara Delik/Biyoloji/Entropi -> `kurzgesagt` (Kurzgesagt: Saturated neons, squash & stretch atom, scale meter)
    - Sistem Düşüncesi/Odak/Disiplin/Zihin Modeli -> `brutalist_thinking` (Dan Koe & Yan Graphics: Obsidian void, 3-node systems, acid lime)
    - İleri Donanım/Çip/Mühendislik/CAD/Blueprint -> `blueprint` (Ayhan Tarakcı: Cobalt CAD grid, exploded assemblies, leader dimensions)
+   - SaaS / Web / Mobil Uygulama Reklamı -> `app_promo` (Linear & Apple: 2.5D yüzen pencere, interaktif SVG imleç tıklaması, bento grid)
+   - SVG Logo Reveal / Marka İntrosu -> `logo_intro` (Trim paths evolvePath, sıvı dolgu, 45° speküler shimmer, şok dalgası)
    - Kuantum Fiziği/Atom Altı -> `quantum` (Cinematic 3D Particle & Morphing)
    - Yazılım/SaaS/Sunucu -> `tech` (Terminal & Arch Stack)
 

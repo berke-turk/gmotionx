@@ -9,6 +9,7 @@ import subtitlesData from "../public/subtitles.json";
 import videoScript from "../public/video_script.json";
 import { WordTimestamp } from "./types";
 import { currentTheme } from "./theme";
+import { IsgCepCommercial } from "./components/commercial/IsgCepCommercial";
 
 const subtitles = subtitlesData as WordTimestamp[];
 
@@ -61,27 +62,44 @@ export const ReelComposition: React.FC = () => {
     return currentTime >= start && currentTime < end;
   });
 
+  const isCommercial =
+    globalGenre === "app_promo" ||
+    globalGenre === "mobile" ||
+    globalGenre === "mobile_app" ||
+    globalGenre === "fintech" ||
+    globalGenre === "banking" ||
+    globalGenre === "saas" ||
+    globalGenre === "commercial" ||
+    globalGenre === "logo_intro" ||
+    globalGenre === "logo" ||
+    script.videoType === "commercial" ||
+    script.captionConfig?.hidden === true;
+
+  if (isCommercial) {
+    return <IsgCepCommercial />;
+  }
+
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
         position: "relative",
-        backgroundColor: currentTheme.colors.background,
+        backgroundColor: isCommercial ? "#07090E" : currentTheme.colors.background,
         overflow: "hidden",
       }}
     >
       {/* 1. Seslendirme */}
       <Audio src={staticFile("voice.mp3")} />
 
-      {/* 2. Dinamik Tema Arka Planı (Neo-Brutalism / Glassmorphism / Paper Explainer vb.) */}
-      <Background />
+      {/* 2. Dinamik Tema Arka Planı (Yalnızca Explainer / Reels Konu Anlatımında) */}
+      {!isCommercial && <Background />}
 
-      {/* 3. Dinamik Uçuşan Parçacıklar */}
-      <FloatingParticles />
+      {/* 3. Dinamik Uçuşan Parçacıklar (Yalnızca Explainer / Reels Konu Anlatımında) */}
+      {!isCommercial && <FloatingParticles />}
 
-      {/* 4. Zarif Üst İlerleme Çubuğu (Süre İşareti) */}
-      <ProgressBar />
+      {/* 4. Zarif Üst İlerleme Çubuğu (Yalnızca Explainer / Reels Konu Anlatımında) */}
+      {!isCommercial && <ProgressBar />}
 
       {/* 5. Dinamik Görsel Motion Graphics Sahneleri (Her konuya ve sahneye özel özgür mimari) */}
       {scenes.map((scene, index) => {
@@ -118,13 +136,15 @@ export const ReelComposition: React.FC = () => {
         );
       })}
 
-      {/* 7. Konsept Duyarlı & Dinamik Konumlu Kinetik Altyazılar */}
-      <KineticCaptions
-        subtitles={subtitles}
-        channelGenre={activeScene?.channelGenre || globalGenre}
-        captionConfig={script.captionConfig}
-        activeSceneCaptionConfig={activeScene?.captionConfig}
-      />
+      {/* 7. Konsept Duyarlı & Dinamik Konumlu Kinetik Altyazılar (Yalnızca Explainer / Reels Konu Anlatımında) */}
+      {!isCommercial && (
+        <KineticCaptions
+          subtitles={subtitles}
+          channelGenre={activeScene?.channelGenre || globalGenre}
+          captionConfig={script.captionConfig}
+          activeSceneCaptionConfig={activeScene?.captionConfig}
+        />
+      )}
     </div>
   );
 };
