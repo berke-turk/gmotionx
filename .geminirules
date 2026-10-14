@@ -1,0 +1,40 @@
+# ANTIGRAVITY AI WORKSPACE PRODUCTION RULES
+
+Her yeni video veya içerik üretiminde aşağıdaki kuralları ve özellikle d:/apps/remotion/rules/channel_genre_training.md rehberini eksiksiz uygula:
+
+1. **ASLA SABİT ŞABLON YOK (KONUYA ÖZEL KANAL MİMARİSİ):**
+   - Asla her videoda aynı kutuyu, aynı ses görselleştiricisini veya sıkıcı podcast şablonunu kullanma.
+   - Konu verildiğinde doğrudan Apify ile eğitilmiş 12 büyük viral kanal mimarisinden birine (`channelGenre`) yönlendir:
+     * `automotive`: bilgilitampon tarzı (Pure black void, zemin yansıması, tork/devir ibresi, mekatronik arıza damgası)
+     * `islamic`: islamvemantik tarzı (Vintage parşömen, kobalt hat sanatı, elle çizilen kırmızı vurgu dairesi, nur kapısı)
+     * `legal`: hukukharitasi tarzı (Milimetrik kareli kâğıt, dosya no, editoryal gazete manşeti, TCK madde kartı)
+     * `math`: mathgine.official tarzı (Kozmik lacivert ızgara, dev soru, animasyonlu kesikli ispat çubuğu, sayı doğrusu)
+     * `sound`: thel.ab67 tarzı (Obsidyen zemin, dairesel polar osiloskop, frekans cetveli, piyano akoru, canlı Hz)
+     * `psychology`: neden.io tarzı (Fildişi zemin, dev condensed 2 satır başlık [siyah+turuncu], 3D clay karakter, uçuşan kelimeler, sayaç hapı)
+     * `cinema`: schole444 tarzı (Keten zemin, ders no, köşe tikli vizör, yanıp sönen REC, segmentli ilerleme çubuğu)
+     * `geopolitics`: Johnny Harris & Vox tarzı (3D izometrik eğimli harita, kavisli ticaret rotası, radar pin, stratejik darboğaz HUD'u)
+     * `finance`: Bloomberg & Wall Street tarzı (Koyu finans terminali, canlı mum grafik, büyüme/enflasyon eğrisi, reel kayıp mukayesesi)
+     * `kurzgesagt`: Kurzgesagt – In a Nutshell tarzı (Canlı neon kozmik degrade, squash & stretch atomik küre, yörünge elipsleri, 10^-15m ölçek cetveli)
+     * `brutalist_thinking`: Dan Koe & Yan Graphics tarzı (Obsidyen monokrom void, asit sarısı vurgu, 3 kavramsal düğüm akışı, trim path oklar)
+     * `blueprint`: Ayhan Tarakcı & CAD Explainers tarzı (Derin kobalt mavi CAD zemin, 10mm teknik ızgara, patlatılmış montaj, ölçülendirme lider okları)
+     * `quantum` / `tech`: Sinematik 3D parçacık / Terminal & Mimari stack
+
+2. **TEK SABİT ELEMAN: ÜST ZAMAN ÇUBUĞU (PROGRESS BAR):**
+   - Yalnızca en üstteki ince süre çubuğu (`ProgressBar`) sabittir. Bunun dışındaki TÜM EKRAN, METİNLER VE ANLATIM DİNAMİKTİR.
+   - **Anlatım Metni & Focal Dimming (Göz Takibi):**
+     * Konuşulan kelime %100 canlı, 1.14x yaylanmalı ve parıltılıdır. Konuşulmayan kelimeler %42 opaklığa çekilerek beyin yorgunluğu önlenir.
+     * Mobil Güvenli Alanlar: Üst 220px, Alt 450px, Sağ 115px (Instagram/TikTok aksiyon butonları) boşluğu korunur (`left: 45px`, `right: 115px`).
+     * Konum Dinamizmi: `bottom` (`top: 1140-1180px`), `center` (`top: 50%`), `below_hero` (`top: 820-980px`), `top` (`top: 230px`).
+     * Tipografi ve stil, 9 kanalın görsel dünyasıyla birebir örtüşür.
+
+3. **GÖRSEL DİKKAT YÖNETİMİ (`VisualAttentionDirector`):**
+   - `AttentionPulsePing` ile sahneye girişte 0.3s'de göz hedef koordinata kilitlenir.
+   - `AttentionHighlighter` ile kilit terimlerin altı fosforlu fırça gibi çizilir.
+   - `AttentionVignette` ile kenarlar karartılarak odak merkezde tutulur.
+
+4. **TAM EĞİTİM VE DETAYLAR:**
+   - Detaylı parametreler, renk kodları ve prompt yönergeleri için: `d:/apps/remotion/rules/channel_genre_training.md` ve `d:/apps/remotion/rules/motion_explainer_rules.md`.
+
+5. **ÇİFT HATLI DİNAMİK FONETİK (DUAL-TRACK PHONETICS):**
+   - Her yeni konuda yabancı/teknik sözcüklerin Türkçe fonetik okunuşlarını dinamik olarak `config/pronunciations.json` sözlüğüne kaydet.
+   - Ses motoru doğal fonetiği konuşsun ("dakır", "aynştayn"), fakat ekranda ve altyazıda orijinal teknik yazım ("DOCKER", "EINSTEIN") korunsun.

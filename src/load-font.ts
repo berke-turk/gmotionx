@@ -5,3 +5,7 @@ export const { fontFamily: TurkishFont } = loadMontserrat("normal", {
   weights: ["800", "900"],
   subsets: ["latin-ext", "latin"],
 });
+
+export const TheBoldFont = TurkishFont;
+export const loadFont = () => ({ fontFamily: TurkishFont });
+

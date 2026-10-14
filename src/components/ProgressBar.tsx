@@ -7,6 +7,7 @@ export const ProgressBar: React.FC = () => {
   const { durationInFrames } = useVideoConfig();
 
   const progress = Math.min(1, Math.max(0, frame / durationInFrames));
+  const isGlass = currentTheme.id === "glassmorphism";
 
   return (
     <div
@@ -15,9 +16,9 @@ export const ProgressBar: React.FC = () => {
         top: 0,
         left: 0,
         right: 0,
-        height: "14px",
-        backgroundColor: currentTheme.colors.background,
-        borderBottom: `3px solid ${currentTheme.colors.inkBlack}`,
+        height: "8px",
+        backgroundColor: isGlass ? "rgba(255, 255, 255, 0.08)" : currentTheme.colors.background,
+        borderBottom: isGlass ? "none" : currentTheme.styles.border,
         zIndex: 50,
       }}
     >
@@ -25,8 +26,8 @@ export const ProgressBar: React.FC = () => {
         style={{
           height: "100%",
           width: `${progress * 100}%`,
-          backgroundColor: currentTheme.colors.signalOrange, // Signal Orange #FF5A36
-          borderRight: `3px solid ${currentTheme.colors.inkBlack}`,
+          backgroundColor: currentTheme.colors.accentPrimary,
+          boxShadow: isGlass ? "0 0 16px rgba(0, 242, 254, 0.8)" : "none",
         }}
       />
     </div>

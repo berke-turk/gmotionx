@@ -22,6 +22,24 @@ flowchart LR
 
 ---
 
+## 🎥 1.1. Yeni: Sinematik Motion Direktör Modu (CINEMATIC_PROMPT_SYSTEM.md)
+
+Herhangi bir konuyu **Hollywood kalitesinde sinematik animasyonlu**, **kinetik tipografili (kinetic typography)**, **morfolojik şekil geçişli (@remotion/paths)**, **anlatımın gerektirdiği yerlerde 3D uzamsal elementli (CSS 3D / isometric)** ve **akıcı sanal kamera hareketli (FluidCamera)** bir başyapıta dönüştürmek için tasarlanmış özel sistem:
+
+👉 **Ayrıntılı Rehber ve Master Prompt:** [CINEMATIC_PROMPT_SYSTEM.md](file:///d:/apps/remotion/CINEMATIC_PROMPT_SYSTEM.md)
+
+* **Fluid Camera:** Yavaş gerilim yaklaşması (Dolly-in), parallax pan ve nefes alan el kamerası mikro-titremesi (`enableMicroDrift`).
+* **Kinetic Typography:** Ritimle ekrana çarpan scale punch (`1.4 -> 1.0`), kademeli harf dökülüşü ve parlayan neon vurgular (`highlightWord`).
+* **Morphing Shapes:** `@remotion/paths` ile SVG şekil morfolojisi (`circle` -> `hexagon`, `square` -> `chip`, `star` -> `shield`).
+* **Gerektiği Yerde 3D:** Anlatımın derinlik ve mimari gerektirdiği sahnelerde `Scene3DContainer` ile izometrik 3D uzay.
+* **Tek Komutla Sinematik Üretim:**
+  ```bash
+  node scripts/generate_script.mjs "Kuantum Dolanıklığı" --cinematic
+  ```
+
+
+---
+
 ## 📝 2. Gemini Viral Senaryo & Yapılandırma Promptu
 
 Her video için kullanılacak standart sistem promptu:
@@ -60,6 +78,11 @@ Tasarım ve Anlatım Kuralları:
    - **DOĞRU KAPANIŞ (Mic-Drop / Çarpıcı Sentez):** Video, konunun özünü ve gerçeğini tek bir otoriter, sarsıcı ve akılda kalıcı cümleyle mühürleyerek aniden biter.
    - *Örnek Doğru Kapanış:* "Tarih, kulaktan dolma anılarla değil; bizzat kurucularının el yazısı ve kanunlaştırdığı resmi belgelerle okunur." (Nokta. Asil ve güçlü bir son.)
 
+7. SÜRE LİMİTİ VE SES BİTİŞ = VİDEO BİTİŞ KURALI:
+   - **Maksimum Tavan Sınır (Hard Cap):** Video süresi ASLA 2 dakikayı (120 saniye / 3600 kare) aşamaz.
+   - **İdeal Süre Aralığı:** Tipik olarak 45 - 65 saniye arasıdır; derin konularda maksimum 80 - 100 saniyeye uzayabilir.
+   - **Ses Bittiğinde Video Biter:** Seslendirme sanatçısı son kelimesini telaffuz ettiği anda video sonlanır (+0.3s doğal ses sönümleme payı). Asla arkada donuk boş ekran, devam eden boş müzik veya sessiz kareler bırakılamaz. Kompozisyon süresi (`durationInFrames`) doğrudan ses dosyasının son kelimesine göre dinamik olarak hesaplanır.
+
 Çıktı Formatı (JSON):
 {
   "category": "Kategori Rozeti (Örn: HAVACILIK SIRLARI / EZBER BOZAN TARİH)",
@@ -80,44 +103,87 @@ Tasarım ve Anlatım Kuralları:
 
 ## 🎨 3. Tasarım Kuralları & Tema Sistemi (Değiştirilebilir Yapı)
 
-Sistem modüler tema mimarisiyle çalışır (`src/theme.ts`). İstenen tema kolayca değiştirilebilir.
-**Aktif ve Varsayılan Temamız:** **Neo-Brutalism**
-
-### 🎯 Neo-Brutalism Renk Paleti (Değişkenler):
-```typescript
-export const THEME_COLORS = {
-  WARM_CREAM:    "#F4F0E6", // %50 — Ana arka plan ve geniş içerik zeminleri
-  INK_BLACK:     "#171717", // %30 — Sert çerçeveler, ana metinler, sert gölgeler
-  ACID_YELLOW:   "#DFFF00", // %15 — Vurgulu kelimeler, aktif altyazı kutusu, CTA
-  SIGNAL_ORANGE: "#FF5A36", // %5  — Uyarılar, tarihi damgalar, karşıt görüşler
-  PURE_WHITE:    "#FFFFFF", // Ters kontrastlı alanlar ve vurgulu metinler
-};
-```
-
-### ⚖️ Renk Kullanım Oranları:
-* **%50 — Warm Cream (`#F4F0E6`):** Videonun ana arka planı ve ana kart zeminleri. Gözü yormayan retro-modern sıcak ton.
-* **%30 — Ink Black (`#171717`):** Tipografi başlıkları, 4px sert çerçeveler (`border: 4px solid #171717`) ve sıfır bulanıklıklı sert açılı gölgeler (`box-shadow: 6px 6px 0px #171717`).
-* **%15 — Acid Yellow (`#DFFF00`):** O an konuşulan kelimenin arkasındaki yüksek kontrastlı parlak kutu, öne çıkan etiketler, CTA elementleri.
-* **%5 — Signal Orange (`#FF5A36`):** Tarihi arşiv damgaları (`HistoricalStamp`), acil uyarı rozetleri, karşıt fikirler.
-* **Pure White (`#FFFFFF`):** Siyah zemin üzerindeki ters kontrastlı alanlar.
-
-### 📐 Neo-Brutalism Biçimsel Kuralları:
-1. **Sert Gölge (Hard Shadow):** Asla yumuşak `blur` veya şeffaf gölge kullanılmaz. Daima `box-shadow: 6px 6px 0px #171717` veya `8px 8px 0px #171717` kullanılır.
-2. **Belirgin Çerçeve (Heavy Border):** Kartlar, rozetler ve damgalar en az `3px` ile `5px` arası katı siyah (`#171717`) çerçeveye sahiptir.
-3. **Tipografi (Türkçe Tam Uyum):**
-   * Font: `Montserrat` (Ağırlık: 800/900 Latin-Extended).
-   * Büyük harfe çevirirken daima `.toLocaleUpperCase("tr-TR")` kullanılır (`İ` ve `I` harfleri bozulmaz).
-4. **Kinetik Altyazı:**
-   * Aktif kelime: `Acid Yellow (#DFFF00)` zeminli sert siyah çerçeveli kapsül kutu + `Ink Black (#171717)` metin rengi.
-   * Pasif kelimeler: `Ink Black (#171717)` kalın metin.
-5. **Dinamik Hareketli Grafikler:**
-   * **Equalizer (AudioVisualizer):** `Acid Yellow` ve `Signal Orange` renkli, ses temposuna göre zıplayan 28 barlık frekans dalgası.
-   * **Tarihi Damga (HistoricalStamp):** Belge çıktığında dönerek çarpan `Signal Orange (#FF5A36)` damga.
-   * **Progress Bar:** Ekranın en üstünde `Signal Orange` ve `Acid Yellow` renk geçişli sert çerçeveli izleme çubuğu.
+Sistem modüler tema mimarisiyle çalışır (`src/theme.ts`). Tek bir parametreyle veya `npm run create` arayüzünden istenen mimari seçilebilir:
 
 ---
 
-## 🔍 4. Kendi Kendini Denetleme (Self-Audit) Protokolü
+### 🏛️ Stil 1: Neo-Brutalism (Aktif & Varsayılan)
+Sert gölgeler, kalın çerçeveler, yüksek kontrast ve cesur pop-art estetiği.
+* **Renk Paleti & Oranları:**
+  - `%50 — Warm Cream (#F4F0E6):` Videonun ana arka planı ve zemin kartları.
+  - `%30 — Ink Black (#171717):` 4-6px sert çerçeveler, tipografi, sıfır-blur sert gölgeler (`box-shadow: 8px 8px 0px #171717`).
+  - `%15 — Acid Yellow (#DFFF00):` Aktif altyazı kelimesi vurgusu, etiketler, CTA.
+  - `%5 — Signal Orange (#FF5A36):` Damgalar, uyarılar, aciliyet rozetleri.
+* **Biçim Kuralları:** Sıfır yumuşatma/blur, katı `8px 8px 0px` gölge, `18px` border radius, `Montserrat 800/900`.
+
+---
+
+### 💎 Stil 2: Glassmorphism & Motion Design
+Yazılım, yapay zeka, finans ve derin teknoloji konuları için buzlu cam (frosted glass) ve neon parıltılar.
+* **Renk Paleti & Oranları:**
+  - `%55 — Deep Void (#0A0D14):` Derin koyu arka plan.
+  - `%25 — Pure White (#FFFFFF) & Muted Slate (#94A3B8):` Tipografi ve cam kart sınırları.
+  - `%15 — Neon Cyan (#00F2FE):` Kinetik kelime aydınlatması, parıltı (glow) efektleri.
+  - `%5 — Electric Purple (#9D4EDD):` Arka plan ambient ışık küreleri ve ikincil vurgu.
+* **Biçim Kuralları:** `backdrop-filter: blur(20px)`, `border: 1.5px solid rgba(255,255,255,0.2)`, `box-shadow: 0 20px 50px rgba(0,0,0,0.6)`, `24px` yuvarlatılmış köşeler.
+
+---
+
+### 📐 Stil 3: Swiss / International Typographic Style
+Bilim, felsefe, belgesel ve veri odaklı konular için modernist ızgara, katı asimetri ve İsviçre Kırmızısı.
+* **Renk Paleti & Oranları:**
+  - `%60 — Modernist Off-White (#F5F5F7):` Arka plan.
+  - `%25 — Strict Black (#0F0F0F):` Net ızgara çizgileri, gövde metinleri ve sert çerçeveler.
+  - `%10 — Swiss Red (#E30613):` İsviçre kırmızısı vurgu kutusu, önemli tarihler ve sayılar.
+  - `%5 — Neutral Gray (#525252):` Alt başlıklar ve teknik etiketler.
+* **Biçim Kuralları:** Keskin köşeler (`borderRadius: 4px`), 2px katı siyah sınırlar, asimetrik tipografik hizalama, sıfır süsleme, maksimum okunabilirlik.
+
+---
+
+### 🌿 Stil 4: Organic / Warm Minimalism
+Psikoloji, edebiyat, kişisel gelişim, tarih ve yaşam felsefesi için sakin, topraksı ve huzurlu akış.
+* **Renk Paleti & Oranları:**
+  - `%55 — Warm Oat / Sand (#EFECE6):` Doğal keten ve kum rengi arka plan.
+  - `%25 — Deep Espresso (#2A2421):` Yumuşak kahve-siyah gövde metinleri.
+  - `%12 — Terracotta (#C86D51):` Pişmiş toprak rengi vurgular ve aktif kelime kapsülü.
+  - `%8 — Sage Green (#7D8C71):` Adaçayı yeşili ikincil kartlar ve sakinleştirici rozetler.
+* **Biçim Kuralları:** Yumuşak organik kavisler (`borderRadius: 28px`), doğal gölgeler (`rgba(42,36,33,0.06)`), ince sıcak sınırlar (`#DDD7CD`).
+
+---
+
+## 🎙️ 4. Çoklu Motor Seslendirmen Kataloğu (`config/voices.json`)
+
+Sistem, **3 farklı yapay zeka ses sağlayıcısını** destekler. Seçilen seslendirmenin tüm bilgileri `public/voice_metadata.json` içerisine mühürlenir:
+
+### A) 🆓 Hazır & Ücretsiz Nöral Motor (Edge-TTS — Anahtarsız)
+| Seslendirmen | Model Anahtarı | Tip | Karakter & Tonlama |
+| :--- | :--- | :--- | :--- |
+| **Ava** | `en-US-AvaMultilingualNeural` | Kadın | **Varsayılan.** Microsoft Copilot'un ultra-doğal, akıcı podcast kadın tonu |
+| **Emel** | `tr-TR-EmelNeural` | Kadın | Net, kurumsal, anlaşılır Microsoft yerel Türkçe kadın sesi |
+| **Ahmet** | `tr-TR-AhmetNeural` | Erkek | Otoriter, derin, tarih ve belgesel anlatımları için karizmatik erkek sesi |
+| **Andrew** | `en-US-AndrewMultilingualNeural` | Erkek | Sıcak, samimi, teknoloji ve iş dünyası videoları için çok dilli erkek sesi |
+| **Brian / Emma** | Multilingual Neural | Erkek / Kadın | Sohbet tonunda samimi veya neşeli dinamik sesler |
+
+### B) 🤖 Google Gemini 2.0 AI Motoru (`GEMINI_API_KEY`)
+| Seslendirmen | Model | Tip | Karakter & Tonlama |
+| :--- | :--- | :--- | :--- |
+| **Puck** | `gemini-2.0-flash` | Erkek | Dinamik, merak uyandırıcı, karizmatik anlatıcı |
+| **Charon** | `gemini-2.0-flash` | Erkek | Derin, vakur, belgesel ve felsefe için otoriter ses |
+| **Kore** | `gemini-2.0-flash` | Kadın | Doğal, empatik, sıcak ve dinlendirici kadın sesi |
+| **Fenrir** | `gemini-2.0-flash` | Erkek | Güçlü, vurgulu ve heybetli epik anlatıcı |
+| **Aoede** | `gemini-2.0-flash` | Kadın | Berrak, melodik ve akıcı anlatım |
+
+### C) 💬 OpenAI / ChatGPT AI Motoru (`OPENAI_API_KEY`)
+| Seslendirmen | Model | Tip | Karakter & Tonlama |
+| :--- | :--- | :--- | :--- |
+| **Alloy** | `tts-1` | Nötr | ChatGPT'nin en bilinen orijinal dengeli tonu |
+| **Nova** | `tts-1` | Kadın | Enerjik, genç ve yüksek retention sağlayan kadın sesi |
+| **Onyx** | `tts-1` | Erkek | Tok, ciddi ve güven verici derin erkek sesi |
+| **Shimmer** | `tts-1` | Kadın | Sıcak, berrak ve tane tane konuşan kadın sesi |
+
+---
+
+## 🔍 5. Kendi Kendini Denetleme (Self-Audit) Protokolü
 
 Sistem render almadan önce şu kontrolleri otomatik olarak yapar:
 1. `node scripts/audit_frames.mjs` çalıştırılarak 5 kilit kare yakalanır:
@@ -125,7 +191,7 @@ Sistem render almadan önce şu kontrolleri otomatik olarak yapar:
    * Kare 250 (1. Bilgi Kartı)
    * Kare 580 (2. Bilgi Kartı)
    * Kare 1000 (3. Bilgi Kartı)
-   * Kare 1400 (CTA & Yorum Çağrısı)
+   * Kare 1400 (Kapanış & Sentez)
 2. **Yapay Zeka Görsel Analizi:**
    * Türkçe karakterler (özellikle İ, Ğ, Ş) doğru çizildi mi?
    * Altyazı ile bilgi kartları üst üste biniyor mu?
@@ -134,17 +200,25 @@ Sistem render almadan önce şu kontrolleri otomatik olarak yapar:
 
 ---
 
-## 🚀 5. Kullanım Komutları
+## 🚀 6. Kullanım Komutları
 
-* **Yeni Video Üret (Tek Komut):**
+* **İnteraktif Video Üretimi (Adım Adım Sihirbaz):**
   ```bash
-  npm run generate
+  npm run create
+  # veya
+  npm start
   ```
-* **Kalite Kontrol Karelerini Al:**
+  *(Sırasıyla konuyu/dosyayı, Apify araştırmasını, 4 tasarım stilini ve Ava/Emel/Ahmet gibi seslendirmenleri sorar ve üretir.)*
+
+* **Doğrudan Seslendirme Testi:**
   ```bash
-  npm run audit
+  python scripts/generate_audio.py ava     # Ava (Ultra-Doğal Kadın)
+  python scripts/generate_audio.py emel    # Emel (Yerel Türkçe Kadın)
+  python scripts/generate_audio.py ahmet   # Ahmet (Karizmatik Erkek)
   ```
+
 * **Canlı Önizleme Stüdyosu:**
   ```bash
   npm run dev
   ```
+

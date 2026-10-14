@@ -11,9 +11,11 @@
     "@remotion/google-fonts": "^4.0.535",
     "@remotion/layout-utils": "4.0.535",
     "@remotion/media-utils": "4.0.535",
+    "@remotion/paths": "^4.0.535",
     "@remotion/tailwind-v4": "4.0.535",
     "@remotion/zod-types": "4.0.535",
     "dotenv": "^18.0.7",
+    "lucide-react": "^1.56.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.535",
@@ -31,6 +33,9 @@
     "typescript": "5.9.3"
   },
   "scripts": {
+    "start": "node scripts/interactive_cli.mjs",
+    "create": "node scripts/interactive_cli.mjs",
+    "audit": "node scripts/audit_frames.mjs",
     "dev": "remotion studio",
     "build": "remotion bundle",
     "render": "remotion render ReelVideo out/final_reel.mp4",

@@ -1,461 +1,261 @@
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { TerminalHookScene } from "./scenes/TerminalHookScene";
+import { ArchitectureStackScene } from "./scenes/ArchitectureStackScene";
+import { CargoMetaphorScene } from "./scenes/CargoMetaphorScene";
+import { SpeedBenchmarkScene } from "./scenes/SpeedBenchmarkScene";
+import { StrikethroughVerdictScene } from "./scenes/StrikethroughVerdictScene";
+import { CinematicExplainerScene } from "./cinematic/CinematicExplainerScene";
+import { CameraMoveConfig } from "./cinematic/FluidCamera";
+import { ChannelGenreOrchestrator } from "./genres/ChannelGenreOrchestrator";
 import { TurkishFont } from "../load-font";
 import { currentTheme } from "../theme";
+import { MaskingTape } from "./MaskingTape";
+import { Play } from "lucide-react";
+import { useCurrentFrame } from "remotion";
 
-export type IllustrationType = "myth_buster" | "archive_1931" | "handwriting_1935" | "scales_laiklik" | "poll_cta";
-
-interface VisualIllustrationProps {
-  type: IllustrationType;
+export interface VisualIllustrationProps {
+  type?: string;
+  channelGenre?: string;
+  genreProps?: Record<string, any>;
+  badge?: string;
+  title?: string;
+  highlightWord?: string;
+  leftTitle?: string;
+  leftDesc?: string;
+  rightTitle?: string;
+  rightDesc?: string;
+  items?: string[];
+  metricValue?: string;
+  metricLabel?: string;
+  verdictText?: string;
+  cameraMove?: CameraMoveConfig;
+  morphFrom?: string;
+  morphTo?: string;
+  show3D?: boolean;
+  layout?: string;
+  position?: "center" | "top" | "fill";
 }
 
-export const VisualIllustration: React.FC<VisualIllustrationProps> = ({ type }) => {
+export const VisualIllustration: React.FC<VisualIllustrationProps> = ({
+  type = "terminal_hook",
+  channelGenre,
+  genreProps,
+  badge,
+  title,
+  highlightWord,
+  leftTitle,
+  leftDesc,
+  rightTitle,
+  rightDesc,
+  items,
+  metricValue,
+  metricLabel,
+  verdictText,
+  cameraMove,
+  morphFrom,
+  morphTo,
+  show3D,
+  layout,
+  position,
+}) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const isPaper = currentTheme.id === "paper-explainer";
 
-  // Yaylanarak ekranın üst merkezine inme
-  const enterSpring = spring({
-    frame,
-    fps,
-    config: {
-      damping: 12,
-      mass: 0.6,
-      stiffness: 130,
-    },
-  });
+  // 0. ÖZEL KANAL MİMARİSİ ROUTER'I (Otomotiv, İslami Hat, Hukuk, Matematik, Akustik, Psikoloji, Sinema, Jeopolitik, Finans)
+  const activeGenre = channelGenre || (
+    ["automotive", "car", "islamic", "spiritual", "legal", "law", "math", "geometry", "sound", "acoustic", "psychology", "cinema", "geopolitics", "map", "finance", "economy"].includes(type)
+      ? type
+      : undefined
+  );
 
-  const translateY = interpolate(enterSpring, [0, 1], [-60, 0]);
-  const scale = interpolate(enterSpring, [0, 1], [0.85, 1]);
-  const opacity = interpolate(enterSpring, [0, 1], [0, 1]);
+  if (activeGenre) {
+    const genreElement = (
+      <ChannelGenreOrchestrator
+        genre={activeGenre}
+        badge={badge}
+        title={title}
+        highlightWord={highlightWord}
+        leftTitle={leftTitle}
+        leftDesc={leftDesc}
+        rightTitle={rightTitle}
+        rightDesc={rightDesc}
+        metricValue={metricValue}
+        metricLabel={metricLabel}
+        verdictText={verdictText}
+        genreProps={genreProps}
+      />
+    );
+    if (genreElement) return genreElement;
+  }
 
-  // Hafif yüzen canlı hareket (floating)
-  const floatY = Math.sin(frame / 20) * 6;
+  // 1. TERMİNAL & YAZILIMCI ÇIKMAZI (Terminal Hook / Comparison)
+  if (type === "terminal_hook" || type === "developer_clash" || type === "comparison") {
+    return (
+      <TerminalHookScene
+        badge={badge}
+        title={title}
+        leftTitle={leftTitle}
+        leftDesc={leftDesc}
+        rightTitle={rightTitle}
+        rightDesc={rightDesc}
+      />
+    );
+  }
 
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: "200px",
-        left: "50px",
-        right: "50px",
-        transform: `translateY(${translateY + floatY}px) scale(${scale})`,
-        opacity,
-        zIndex: 35,
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      {type === "myth_buster" && (
+  // 2. MİMARİ MUKAYESE (Architecture Stack / VM vs Docker)
+  if (type === "architecture_stack" || type === "container_vs_vm" || type === "tech_stack") {
+    return (
+      <ArchitectureStackScene
+        badge={badge}
+        title={title}
+      />
+    );
+  }
+
+  // 3. KARGO KONTEYNERİ METAFORU (Cargo Metaphor / Ship)
+  if (type === "cargo_metaphor" || type === "cargo_ship" || type === "feature_list") {
+    return (
+      <CargoMetaphorScene
+        badge={badge}
+        title={title}
+      />
+    );
+  }
+
+  // 4. HIZ VE PERFORMANS GRAFİĞİ (Speed Benchmark / Curve)
+  if (type === "speed_benchmark" || type === "speed_metric" || type === "frequency_graph") {
+    return (
+      <SpeedBenchmarkScene
+        badge={badge}
+        title={title}
+        metricValue={metricValue}
+        metricLabel={metricLabel}
+      />
+    );
+  }
+
+  // 5. ÜSTÜ ÇİZİLEN HÜKÜM & MİC-DROP (Strikethrough Verdict)
+  if (type === "strikethrough_verdict" || type === "closing_verdict") {
+    return (
+      <StrikethroughVerdictScene
+        badge={badge}
+        title={title}
+        verdictText={verdictText}
+      />
+    );
+  }
+
+  // 6. SES KAYDI MOCKUP (Audio Memo)
+  if (type === "audio_memo" || type === "audio_hook") {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: "100px",
+          left: "30px",
+          right: "30px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "16px",
+          zIndex: 35,
+        }}
+      >
         <div
           style={{
             width: "100%",
-            backgroundColor: currentTheme.colors.pureWhite,
+            backgroundColor: isPaper ? "#FFFFFF" : currentTheme.colors.cardBackground,
             border: currentTheme.styles.borderThick,
-            borderRadius: "20px",
-            boxShadow: currentTheme.styles.shadowHard,
-            padding: "28px 24px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "18px",
-          }}
-        >
-          {/* Üst Uyarı Rozeti */}
-          <div
-            style={{
-              backgroundColor: currentTheme.colors.signalOrange,
-              border: "3px solid #171717",
-              borderRadius: "10px",
-              padding: "6px 20px",
-              boxShadow: "3px 3px 0px #171717",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: TurkishFont,
-                color: currentTheme.colors.pureWhite,
-                fontSize: "18px",
-                fontWeight: 900,
-                letterSpacing: "0.1em",
-              }}
-            >
-              ⚠️ TARİHİ EFSANE vs GERÇEK
-            </span>
-          </div>
-
-          {/* İkili Görsel Karşılaştırma Grafiği */}
-          <div style={{ display: "flex", width: "100%", gap: "16px" }}>
-            {/* Yanlış / Efsane */}
-            <div
-              style={{
-                flex: 1,
-                backgroundColor: "#FEE2E2",
-                border: "3px solid #171717",
-                borderRadius: "14px",
-                padding: "16px 12px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "8px",
-                boxShadow: "3px 3px 0px #171717",
-              }}
-            >
-              <span style={{ fontSize: "40px" }}>❌</span>
-              <span
-                style={{
-                  fontFamily: TurkishFont,
-                  fontSize: "20px",
-                  fontWeight: 900,
-                  color: "#991B1B",
-                }}
-              >
-                YANLIŞ
-              </span>
-              <span
-                style={{
-                  fontFamily: TurkishFont,
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: currentTheme.colors.inkBlack,
-                  textAlign: "center",
-                }}
-              >
-                Sürekli Değişmek & Doktrinsizlik
-              </span>
-            </div>
-
-            {/* Doğru / Belge */}
-            <div
-              style={{
-                flex: 1,
-                backgroundColor: "#DCFCE7",
-                border: "3px solid #171717",
-                borderRadius: "14px",
-                padding: "16px 12px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "8px",
-                boxShadow: "3px 3px 0px #171717",
-              }}
-            >
-              <span style={{ fontSize: "40px" }}>✅</span>
-              <span
-                style={{
-                  fontFamily: TurkishFont,
-                  fontSize: "20px",
-                  fontWeight: 900,
-                  color: "#166534",
-                }}
-              >
-                DOĞRU
-              </span>
-              <span
-                style={{
-                  fontFamily: TurkishFont,
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: currentTheme.colors.inkBlack,
-                  textAlign: "center",
-                }}
-              >
-                Kazanımları Muhafaza Etmek
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "archive_1931" && (
-        <div
-          style={{
-            width: "100%",
-            backgroundColor: currentTheme.colors.pureWhite,
-            border: currentTheme.styles.borderThick,
-            borderRadius: "20px",
-            boxShadow: currentTheme.styles.shadowHard,
-            padding: "26px 30px",
-            display: "flex",
-            alignItems: "center",
-            gap: "24px",
-          }}
-        >
-          {/* Sol: Büyük Arşiv İkonu & Etiket */}
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              backgroundColor: currentTheme.colors.acidYellow,
-              border: "3px solid #171717",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "52px",
-              boxShadow: "4px 4px 0px #171717",
-              flexShrink: 0,
-            }}
-          >
-            📜
-          </div>
-
-          {/* Sağ: İnfografik Başlıkları */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignSelf: "flex-start",
-                backgroundColor: currentTheme.colors.background,
-                border: "2px solid #171717",
-                borderRadius: "6px",
-                padding: "4px 12px",
-                fontSize: "14px",
-                fontWeight: 900,
-                fontFamily: TurkishFont,
-              }}
-            >
-              1931 DEVLET MATBAASI
-            </div>
-            <div
-              style={{
-                fontFamily: TurkishFont,
-                fontSize: "26px",
-                fontWeight: 900,
-                color: currentTheme.colors.inkBlack,
-                lineHeight: 1.2,
-              }}
-            >
-              TARİH IV DERS KİTABI
-            </div>
-            <div
-              style={{
-                fontSize: "18px",
-                fontWeight: 700,
-                color: "#4B5563",
-              }}
-            >
-              "İnkılapçılık: Prensipleri müdafaa etmeyi esas tutar."
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "handwriting_1935" && (
-        <div
-          style={{
-            width: "100%",
-            backgroundColor: currentTheme.colors.pureWhite,
-            border: currentTheme.styles.borderThick,
-            borderRadius: "20px",
-            boxShadow: currentTheme.styles.shadowHard,
-            padding: "26px 30px",
-            display: "flex",
-            alignItems: "center",
-            gap: "24px",
-          }}
-        >
-          {/* Sol İkon */}
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              backgroundColor: "#BAE6FD", // Açık mavi
-              border: "3px solid #171717",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "52px",
-              boxShadow: "4px 4px 0px #171717",
-              flexShrink: 0,
-            }}
-          >
-            ✍️
-          </div>
-
-          {/* Sağ Metin */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignSelf: "flex-start",
-                backgroundColor: currentTheme.colors.acidYellow,
-                border: "2px solid #171717",
-                borderRadius: "6px",
-                padding: "4px 12px",
-                fontSize: "14px",
-                fontWeight: 900,
-                fontFamily: TurkishFont,
-              }}
-            >
-              ATATÜRK'ÜN EL YAZISIYLA (1935)
-            </div>
-            <div
-              style={{
-                fontFamily: TurkishFont,
-                fontSize: "28px",
-                fontWeight: 900,
-                color: currentTheme.colors.inkBlack,
-                lineHeight: 1.2,
-              }}
-            >
-              "KAMÂLİZM PRENSİPLERİ"
-            </div>
-            <div
-              style={{
-                fontSize: "18px",
-                fontWeight: 700,
-                color: "#4B5563",
-              }}
-            >
-              CHP Programına bizzat Atatürk tarafından eklenmiştir.
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "scales_laiklik" && (
-        <div
-          style={{
-            width: "100%",
-            backgroundColor: currentTheme.colors.pureWhite,
-            border: currentTheme.styles.borderThick,
-            borderRadius: "20px",
-            boxShadow: currentTheme.styles.shadowHard,
-            padding: "26px 30px",
-            display: "flex",
-            alignItems: "center",
-            gap: "24px",
-          }}
-        >
-          {/* Sol Adalet Terazisi İkonu */}
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              backgroundColor: currentTheme.colors.acidYellow,
-              border: "3px solid #171717",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "52px",
-              boxShadow: "4px 4px 0px #171717",
-              flexShrink: 0,
-            }}
-          >
-            ⚖️
-          </div>
-
-          {/* Sağ İnfografik */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignSelf: "flex-start",
-                backgroundColor: "#DCFCE7",
-                border: "2px solid #171717",
-                borderRadius: "6px",
-                padding: "4px 12px",
-                fontSize: "14px",
-                fontWeight: 900,
-                fontFamily: TurkishFont,
-                color: "#166534",
-              }}
-            >
-              1 KASIM 1937 TBMM KONUŞMASI
-            </div>
-            <div
-              style={{
-                fontFamily: TurkishFont,
-                fontSize: "26px",
-                fontWeight: 900,
-                color: currentTheme.colors.inkBlack,
-                lineHeight: 1.2,
-              }}
-            >
-              GERÇEK LAİKLİK İLKESİ
-            </div>
-            <div
-              style={{
-                fontSize: "18px",
-                fontWeight: 700,
-                color: "#4B5563",
-              }}
-            >
-              "Kanun yaparken dogmaları değil, ilmi ve hayatı rehber almak."
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "poll_cta" && (
-        <div
-          style={{
-            width: "100%",
-            backgroundColor: currentTheme.colors.pureWhite,
-            border: currentTheme.styles.borderThick,
-            borderRadius: "20px",
-            boxShadow: currentTheme.styles.shadowHard,
-            padding: "26px 24px",
+            borderRadius: "18px",
+            padding: "24px 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: "16px",
+            position: "relative",
+            boxShadow: currentTheme.styles.boxShadow,
           }}
         >
+          {isPaper && <MaskingTape width={180} top={-18} rotate={-1.5} />}
           <div
             style={{
-              backgroundColor: currentTheme.colors.signalOrange,
-              color: currentTheme.colors.pureWhite,
-              border: "3px solid #171717",
-              borderRadius: "8px",
-              padding: "6px 20px",
-              fontSize: "18px",
-              fontWeight: 900,
+              backgroundColor: currentTheme.colors.accentSecondary,
+              color: "#FFFFFF",
+              borderRadius: "6px",
+              padding: "4px 16px",
               fontFamily: TurkishFont,
-              boxShadow: "3px 3px 0px #171717",
+              fontSize: "13px",
+              fontWeight: 900,
             }}
           >
-            💬 SEN NE DÜŞÜNÜYORSUN?
+            🎙️ {badge || "GELEN SES KAYDI"}
           </div>
 
-          <div style={{ display: "flex", width: "100%", gap: "12px" }}>
+          <div
+            style={{
+              width: "100%",
+              backgroundColor: isPaper ? "#F4F0E6" : "rgba(255, 255, 255, 0.08)",
+              borderRadius: "14px",
+              padding: "16px",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
             <div
               style={{
-                flex: 1,
-                backgroundColor: currentTheme.colors.background,
-                border: "3px solid #171717",
-                borderRadius: "10px",
-                padding: "12px",
-                textAlign: "center",
-                fontFamily: TurkishFont,
-                fontWeight: 900,
-                fontSize: "16px",
-                boxShadow: "3px 3px 0px #171717",
+                width: "44px",
+                height: "44px",
+                borderRadius: "50%",
+                backgroundColor: currentTheme.colors.accentPrimary,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
               }}
             >
-              [A] Resmi Belgeler
+              <Play size={20} fill="#18181B" style={{ marginLeft: "2px" }} />
             </div>
-            <div
-              style={{
-                flex: 1,
-                backgroundColor: currentTheme.colors.background,
-                border: "3px solid #171717",
-                borderRadius: "10px",
-                padding: "12px",
-                textAlign: "center",
-                fontFamily: TurkishFont,
-                fontWeight: 900,
-                fontSize: "16px",
-                boxShadow: "3px 3px 0px #171717",
-              }}
-            >
-              [B] Kulaktan Dolma Anılar
+
+            <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "3px", height: "36px" }}>
+              {Array.from({ length: 26 }).map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1,
+                    height: `${10 + Math.abs(Math.sin((frame + i * 4) * 0.15)) * 24}px`,
+                    backgroundColor: i < (frame % 26) ? currentTheme.colors.accentSecondary : "rgba(0,0,0,0.2)",
+                    borderRadius: "2px",
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    );
+  }
+
+  // 7. SİNEMATİK ANİMASYONLU, KİNETİK TİPOGRAFİLİ, MORFOLOJİK ŞEKİLLİ & 3D SAHNE
+  // (type 'cinematic', 'morphing_metaphor', 'spatial_3d', 'kinetic_manifesto' veya konuya özel herhangi bir yeni sahne)
+  return (
+    <CinematicExplainerScene
+      badge={badge}
+      title={title}
+      highlightWord={highlightWord}
+      leftTitle={leftTitle}
+      leftDesc={leftDesc}
+      rightTitle={rightTitle}
+      rightDesc={rightDesc}
+      metricValue={metricValue}
+      metricLabel={metricLabel}
+      verdictText={verdictText}
+      cameraMove={cameraMove}
+      morphFrom={morphFrom}
+      morphTo={morphTo}
+      show3D={show3D !== false}
+      layout={layout}
+      position={position}
+    />
   );
 };

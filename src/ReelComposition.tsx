@@ -1,21 +1,65 @@
 import React from "react";
-import { Audio, Sequence, staticFile, useVideoConfig } from "remotion";
+import { Audio, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Background } from "./components/Background";
 import { ProgressBar } from "./components/ProgressBar";
-import { HeaderBadge } from "./components/HeaderBadge";
 import { VisualIllustration } from "./components/VisualIllustration";
-import { KineticCaptions } from "./components/KineticCaptions";
+import { CaptionConfig, KineticCaptions } from "./components/KineticCaptions";
 import { FloatingParticles } from "./components/FloatingParticles";
-import { AudioVisualizer } from "./components/AudioVisualizer";
-import { HistoricalStamp } from "./components/HistoricalStamp";
 import subtitlesData from "../public/subtitles.json";
+import videoScript from "../public/video_script.json";
 import { WordTimestamp } from "./types";
 import { currentTheme } from "./theme";
 
 const subtitles = subtitlesData as WordTimestamp[];
 
+interface SceneConfig {
+  startSec?: number;
+  endSec?: number;
+  type?: string;
+  channelGenre?: string;
+  genreProps?: Record<string, any>;
+  captionConfig?: CaptionConfig;
+  badge?: string;
+  title?: string;
+  highlightWord?: string;
+  leftTitle?: string;
+  leftDesc?: string;
+  rightTitle?: string;
+  rightDesc?: string;
+  items?: string[];
+  metricValue?: string;
+  metricLabel?: string;
+  verdictText?: string;
+  cameraMove?: {
+    zoom?: number;
+    panX?: number;
+    panY?: number;
+    rotateZ?: number;
+    rotateX?: number;
+    rotateY?: number;
+    enableMicroDrift?: boolean;
+  };
+  morphFrom?: string;
+  morphTo?: string;
+  show3D?: boolean;
+  layout?: string;
+  position?: "center" | "top" | "fill";
+}
+
 export const ReelComposition: React.FC = () => {
-  const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+
+  const script = videoScript as any;
+  const globalGenre = script.channelGenre as string | undefined;
+  const scenes = (script.scenes || []) as SceneConfig[];
+
+  const currentTime = frame / fps;
+  const activeScene = scenes.find((s) => {
+    const start = s.startSec || 0;
+    const end = s.endSec || 999;
+    return currentTime >= start && currentTime < end;
+  });
 
   return (
     <div
@@ -30,54 +74,57 @@ export const ReelComposition: React.FC = () => {
       {/* 1. Seslendirme */}
       <Audio src={staticFile("voice.mp3")} />
 
-      {/* 2. Neo-Brutalism Warm Cream Arka Plan */}
+      {/* 2. Dinamik Tema Arka Planı (Neo-Brutalism / Glassmorphism / Paper Explainer vb.) */}
       <Background />
 
       {/* 3. Dinamik Uçuşan Parçacıklar */}
       <FloatingParticles />
 
-      {/* 4. Canlı Ses Dalgası (Equalizer) */}
-      <AudioVisualizer />
-
-      {/* 5. Üst İlerleme Çubuğu */}
+      {/* 4. Zarif Üst İlerleme Çubuğu (Süre İşareti) */}
       <ProgressBar />
 
-      {/* 6. Üst Başlık Rozeti */}
-      <HeaderBadge title="EZBER BOZAN TARİH" />
+      {/* 5. Dinamik Görsel Motion Graphics Sahneleri (Her konuya ve sahneye özel özgür mimari) */}
+      {scenes.map((scene, index) => {
+        const fromFrame = Math.round((scene.startSec || 0) * fps);
+        const isLast = index === scenes.length - 1;
+        const rawDuration = Math.round(((scene.endSec || 10) - (scene.startSec || 0)) * fps);
+        const duration = isLast ? Math.max(1, durationInFrames - fromFrame) : Math.max(1, rawDuration);
 
-      {/* 7. Görsel İnfografikler (Yazı kalabalığı yok, sadece simgeler ve grafikler) */}
+        return (
+          <Sequence key={`scene-${index}`} from={fromFrame} durationInFrames={duration}>
+            <VisualIllustration
+              type={scene.type}
+              channelGenre={scene.channelGenre || globalGenre}
+              genreProps={scene.genreProps}
+              badge={scene.badge}
+              title={scene.title}
+              highlightWord={scene.highlightWord}
+              leftTitle={scene.leftTitle}
+              leftDesc={scene.leftDesc}
+              rightTitle={scene.rightTitle}
+              rightDesc={scene.rightDesc}
+              items={scene.items}
+              metricValue={scene.metricValue}
+              metricLabel={scene.metricLabel}
+              verdictText={scene.verdictText}
+              cameraMove={scene.cameraMove}
+              morphFrom={scene.morphFrom}
+              morphTo={scene.morphTo}
+              show3D={scene.show3D}
+              layout={scene.layout}
+              position={scene.position}
+            />
+          </Sequence>
+        );
+      })}
 
-      {/* 0 - 3.5 sn: Giriş Kancası (Görsel Karşılaştırma) */}
-      <Sequence from={0} durationInFrames={Math.round(3.5 * fps)}>
-        <VisualIllustration type="myth_buster" />
-        <HistoricalStamp text="ŞEHİR EFSANESİ" subtext="ARAŞTIRILDI" />
-      </Sequence>
-
-      {/* 3.5 - 14.5 sn: 1931 Arşiv Belgesi Grafiği */}
-      <Sequence from={Math.round(3.5 * fps)} durationInFrames={Math.round(11 * fps)}>
-        <VisualIllustration type="archive_1931" />
-        <HistoricalStamp text="DEVLET MATBAASI" subtext="1931 ARŞİV" />
-      </Sequence>
-
-      {/* 14.5 - 26 sn: 1935 El Yazısı Grafiği */}
-      <Sequence from={Math.round(14.5 * fps)} durationInFrames={Math.round(11.5 * fps)}>
-        <VisualIllustration type="handwriting_1935" />
-        <HistoricalStamp text="EL YAZISIYLA" subtext="1935 PROGRAMI" />
-      </Sequence>
-
-      {/* 26 - 41 sn: Laiklik Adalet / Mantık Terazisi */}
-      <Sequence from={Math.round(26 * fps)} durationInFrames={Math.round(15 * fps)}>
-        <VisualIllustration type="scales_laiklik" />
-        <HistoricalStamp text="TBMM ZABITLARI" subtext="1 KASIM 1937" />
-      </Sequence>
-
-      {/* 41 - 53 sn: CTA Oylama / Yorum Kutusu */}
-      <Sequence from={Math.round(41 * fps)} durationInFrames={Math.round(12 * fps)}>
-        <VisualIllustration type="poll_cta" />
-      </Sequence>
-
-      {/* 8. Cümle Duyarlı Kinetik Altyazılar (Noktalamaya ve soluklanmaya tam senkron) */}
-      <KineticCaptions subtitles={subtitles} />
+      {/* 7. Konsept Duyarlı & Dinamik Konumlu Kinetik Altyazılar */}
+      <KineticCaptions
+        subtitles={subtitles}
+        channelGenre={activeScene?.channelGenre || globalGenre}
+        captionConfig={script.captionConfig}
+        activeSceneCaptionConfig={activeScene?.captionConfig}
+      />
     </div>
   );
 };

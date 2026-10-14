@@ -94,7 +94,12 @@ cp .env.example .env
 ## 🛠️ Temel Komutlar
 
 ```bash
-# files/ altındaki girdiden uçtan uca video üret
+# 🎬 İnteraktif Video Üretim Sihirbazı (Konu, Apify, Stil ve Seslendirmen sorar)
+npm run create
+# veya
+npm start
+
+# files/ altındaki girdiden doğrudan video üret
 npm run generate
 
 # Remotion Studio'yu tarayıcıda canlı aç ve düzenle
@@ -106,6 +111,18 @@ npm run audit
 # Nihai 1080x1920 MP4 videoyu render al
 npm run render
 ```
+
+---
+
+## 🎙️ Seslendirmen Kataloğu (`config/voices.json`)
+
+Sistemde dilediğiniz seslendirmeni seçebilir, `config/voices.json` dosyasına yeni sanatçılar ekleyebilirsiniz:
+* **Ava (Varsayılan):** Ultra-doğal, akıcı, yeni nesil kadın sesi (`en-US-AvaMultilingualNeural`).
+* **Emel:** Kurumsal ve net yerel Türkçe kadın sesi (`tr-TR-EmelNeural`).
+* **Ahmet:** Otoriter, karizmatik ve derin erkek sesi (`tr-TR-AhmetNeural`).
+* **Andrew / Brian / Emma:** Küresel ve samimi çok dilli alternatifler.
+
+Her üretimde seçilen seslendirmenin kimlik bilgileri `public/voice_metadata.json` içerisine mühürlenir.
 
 ---
 
